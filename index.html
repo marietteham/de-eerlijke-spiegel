@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>De Eerlijke Spiegel | Mariëtte Ham</title>
+
+  <!--
+    ============================================================
+    INSTRUCTIES VOOR DE VA: drie dingen aanpassen onderaan
+    ============================================================
+    1. FORMSPREE_URL: jouw eigen Formspree endpoint
+    2. URL_GESPREK: de juiste link voor "plan een gesprek"
+    3. URL_BROCHURE: de juiste link voor "download brochure"
+    Zoek naar "PAS HIER AAN" in het script onderaan.
+    ============================================================
+  -->
+
+  <style>
+    :root {
+      --teal: #006A66;
+      --teal-light: #4CBFE1;
+      --bordeaux: #933832;
+      --grey: #CECBC3;
+      --grey-light: #F4F2EE;
+      --text: #2A2A2A;
+      --text-soft: #555;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-wrap img {
+      max-width: 180px;
+      height: auto;
+    }
+
+    h1 {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      color: var(--teal);
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--bordeaux);
+      font-style: italic;
+      font-size: 18px;
+      margin: 0 0 12px;
+      font-family: 'Source Serif Pro', Georgia, serif;
+    }
+
+    .filosofie {
+      text-align: center;
+      color: var(--teal);
+      font-size: 14px;
+      letter-spacing: 1px;
+      margin: 0 0 32px;
+      font-style: italic;
+    }
+
+    .accent-line {
+      width: 60px;
+      height: 2px;
+      background: var(--teal);
+      margin: 0 auto 32px;
+    }
+
+    .intro {
+      background: var(--grey-light);
+      padding: 24px 28px;
+      border-left: 3px solid var(--bordeaux);
+      margin-bottom: 32px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .intro p {
+      margin: 0 0 12px;
+      color: var(--text);
+    }
+
+    .intro p:last-child {
+      margin-bottom: 0;
+    }
+
+    .intro strong {
+      color: var(--bordeaux);
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--teal);
+      color: #fff;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #005553;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--teal);
+      border: 2px solid var(--teal);
+      padding: 12px 30px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    .start-section {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .progress-wrap {
+      margin-bottom: 32px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--grey);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--teal);
+      transition: width 0.3s ease;
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--bordeaux);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .question {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--text);
+      margin: 0 0 32px;
+      font-weight: 400;
+    }
+
+    .scale {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .scale-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      background: #fff;
+      border: 1.5px solid var(--grey);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .scale-option:hover {
+      border-color: var(--teal);
+      background: var(--grey-light);
+    }
+
+    .scale-option.selected {
+      border-color: var(--teal);
+      background: var(--grey-light);
+    }
+
+    .scale-number {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      font-size: 20px;
+      color: var(--teal);
+      font-weight: 700;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .scale-label {
+      flex: 1;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .nav-buttons .btn-secondary {
+      visibility: hidden;
+    }
+
+    .nav-buttons.show-back .btn-secondary {
+      visibility: visible;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+
+    .privacy-note {
+      font-size: 13px;
+      color: var(--text-soft);
+      font-style: italic;
+      margin: 16px 0 24px;
+    }
+
+    .form-error {
+      color: var(--bordeaux);
+      font-size: 14px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .result-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .result-zone {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      font-size: 28px;
+      color: var(--teal);
+      margin: 0 0 8px;
+    }
+
+    .result-score {
+      font-size: 14px;
+      color: var(--text-soft);
+      letter-spacing: 0.5px;
+    }
+
+    .scores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .score-card {
+      padding: 20px;
+      background: var(--grey-light);
+      border-top: 3px solid var(--teal);
+      border-radius: 0 0 6px 6px;
+    }
+
+    .score-card-label {
+      font-size: 13px;
+      color: var(--bordeaux);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+
+    .score-card-score {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      font-size: 28px;
+      color: var(--teal);
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .score-card-status {
+      font-size: 13px;
+      color: var(--text-soft);
+      font-style: italic;
+    }
+
+    .reflection {
+      background: var(--grey-light);
+      padding: 24px 28px;
+      border-left: 3px solid var(--bordeaux);
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 32px;
+    }
+
+    .reflection p {
+      margin: 0 0 12px;
+    }
+
+    .reflection p:last-child {
+      margin-bottom: 0;
+    }
+
+    .reflection strong {
+      color: var(--bordeaux);
+    }
+
+    .cta-block {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--teal);
+      color: #fff;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .cta-block h3 {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      font-size: 24px;
+      margin: 0 0 12px;
+      font-weight: 600;
+    }
+
+    .cta-block p {
+      margin: 0 0 20px;
+      opacity: 0.95;
+    }
+
+    .cta-block .btn {
+      background: #fff;
+      color: var(--teal);
+    }
+
+    .cta-block .btn:hover {
+      background: var(--grey-light);
+    }
+
+    .secondary-cta {
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    .secondary-cta a {
+      color: var(--teal);
+      text-decoration: underline;
+      font-size: 15px;
+    }
+
+    .footer-tagline {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--grey);
+      color: var(--teal);
+      font-style: italic;
+      font-family: 'Source Serif Pro', Georgia, serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 28px; }
+      .question { font-size: 19px; }
+      .container { padding: 24px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="logo-wrap">
+      <img src="https://marietteham.nl/wp-content/uploads/2020/02/Logo-Mariette-Ham-DIAP.png" alt="Mariëtte Ham">
+    </div>
+
+    <h1>De Eerlijke Spiegel</h1>
+    <p class="subtitle">durf je echt te kijken?</p>
+    <p class="filosofie">Ziet · Bevrijdt · Transformeert</p>
+
+    <div class="accent-line"></div>
+
+    <div id="intro-screen">
+      <div class="intro">
+        <p><strong>Wees eens eerlijk.</strong> Je team draait, maar het is onrustig. Je patiënten komen terug, maar jij gaat doodmoe naar bed. Je zegt tegen jezelf dat het wel goed gaat. Maar diep van binnen weet je dat je dat al veel te lang volhoudt.</p>
+        <p>Deze spiegel laat zien hoe stevig jouw fundament als praktijkleider werkelijk is. Negen vragen, drie thema's, geen plek om weg te kijken. Reken op vijf minuten.</p>
+        <p><strong>De drie thema's:</strong> persoonlijk leiderschap en ondernemen, jouw team, en de systemen waarop je praktijk draait.</p>
+      </div>
+
+      <div class="start-section">
+        <button class="btn" onclick="startScan()">Start de spiegel</button>
+      </div>
+    </div>
+
+    <div id="question-screen" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span id="progress-text">Vraag 1 van 9</span>
+          <span id="section-text">Persoonlijk leiderschap</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 11%"></div>
+        </div>
+      </div>
+
+      <div class="section-label" id="section-label">Persoonlijk leiderschap en ondernemen</div>
+      <p class="question" id="question-text"></p>
+
+      <div class="scale">
+        <div class="scale-option" data-value="1" onclick="selectAnswer(1)">
+          <span class="scale-number">1</span>
+          <span class="scale-label">Helemaal niet, eerlijk gezegd niet</span>
+        </div>
+        <div class="scale-option" data-value="2" onclick="selectAnswer(2)">
+          <span class="scale-number">2</span>
+          <span class="scale-label">Niet echt, ik moet eerlijk zijn</span>
+        </div>
+        <div class="scale-option" data-value="3" onclick="selectAnswer(3)">
+          <span class="scale-number">3</span>
+          <span class="scale-label">Soms wel, soms niet</span>
+        </div>
+        <div class="scale-option" data-value="4" onclick="selectAnswer(4)">
+          <span class="scale-number">4</span>
+          <span class="scale-label">Ja, vaak wel</span>
+        </div>
+        <div class="scale-option" data-value="5" onclick="selectAnswer(5)">
+          <span class="scale-number">5</span>
+          <span class="scale-label">Ja, hier sta ik volledig achter</span>
+        </div>
+      </div>
+
+      <div class="nav-buttons" id="nav-buttons">
+        <button class="btn btn-secondary" onclick="goBack()">← Vorige</button>
+        <button class="btn" id="next-btn" onclick="goNext()" disabled style="opacity: 0.4; cursor: not-allowed;">Volgende →</button>
+      </div>
+    </div>
+
+    <div id="email-screen" class="hidden">
+      <div class="intro">
+        <p><strong>Je hebt de negen vragen ingevuld.</strong> Voordat ik je de uitslag laat zien, vraag ik je om je naam en e-mailadres. Niet om je in een mailing-trechter te stoppen, maar zodat ik weet wie er moed heeft gehad om eerlijk te kijken.</p>
+        <p>Je krijgt direct daarna jouw persoonlijke uitslag te zien.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="email-name">Je naam</label>
+        <input type="text" id="email-name" placeholder="Voor- en achternaam" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email-address">Je e-mailadres</label>
+        <input type="email" id="email-address" placeholder="naam@praktijk.nl" required>
+        <p class="form-error" id="email-error">Vul een geldig e-mailadres in.</p>
+      </div>
+
+      <p class="privacy-note">Ik gebruik je gegevens alleen om eventueel persoonlijk contact met je op te kunnen nemen. Je kunt je altijd weer afmelden.</p>
+
+      <div class="nav-buttons show-back">
+        <button class="btn btn-secondary" onclick="goBackToQuestions()">← Vorige</button>
+        <button class="btn" id="submit-btn" onclick="submitEmail()">Toon de spiegel →</button>
+      </div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+      <div class="result-header">
+        <p class="result-zone" id="result-zone-text"></p>
+        <p class="result-score" id="result-total-score"></p>
+      </div>
+
+      <div class="scores-grid">
+        <div class="score-card">
+          <p class="score-card-label">Persoonlijk leiderschap</p>
+          <p class="score-card-score" id="score-1"></p>
+          <p class="score-card-status" id="status-1"></p>
+        </div>
+        <div class="score-card">
+          <p class="score-card-label">Jouw team</p>
+          <p class="score-card-score" id="score-2"></p>
+          <p class="score-card-status" id="status-2"></p>
+        </div>
+        <div class="score-card">
+          <p class="score-card-label">Systemen en processen</p>
+          <p class="score-card-score" id="score-3"></p>
+          <p class="score-card-status" id="status-3"></p>
+        </div>
+      </div>
+
+      <div class="reflection" id="reflection-text"></div>
+
+      <div class="cta-block">
+        <h3>Wil je hierover doorpraten?</h3>
+        <p>Plan een vrijblijvend kennismakingsgesprek van 60 minuten. Geen verkoop, wel een eerlijk gesprek.</p>
+        <a href="#" id="cta-gesprek" class="btn">Plan een gesprek</a>
+      </div>
+
+      <div class="secondary-cta">
+        <a href="#" id="cta-brochure">Of download eerst de brochure van Praktijkleiderschap in balans →</a>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px;">
+        <button class="btn btn-secondary" onclick="resetScan()">Spiegel opnieuw doen</button>
+      </div>
+    </div>
+
+    <p class="footer-tagline">Ziet · Bevrijdt · Transformeert</p>
+
+  </div>
+
+  <script>
+    /* ============================================================
+       PAS HIER AAN — drie regels die de VA moet invullen
+       ============================================================ */
+
+    // 1. Formspree endpoint (maak een gratis account op formspree.io,
+    //    maak een nieuw form aan, kopieer de URL hieronder)
+    const FORMSPREE_URL = "https://hook.eu2.make.com/twz9hs1aim0f1h2if4phvfj7zzpj22k1";
+
+    // 2. Link voor "plan een gesprek"
+    const URL_GESPREK = "https://www.marietteham.nl/contact";
+
+    // 3. Link voor "download brochure"
+    const URL_BROCHURE = "https://www.marietteham.nl/brochure";
+
+    /* ============================================================
+       VANAF HIER NIETS MEER AANPASSEN
+       ============================================================ */
+
+    const questions = [
+      {
+        section: 1,
+        sectionName: "Persoonlijk leiderschap en ondernemen",
+        text: "Als ik nu mijn team zou vragen waar ik als leider voor sta, zouden zij precies hetzelfde antwoord geven als ik."
+      },
+      {
+        section: 1,
+        sectionName: "Persoonlijk leiderschap en ondernemen",
+        text: "Ik heb in de afgelopen maand minstens één zakelijke beslissing genomen die niet matcht met mijn instinct als zorgverlener, en ik heb daar geen wakkere nachten over gehad."
+      },
+      {
+        section: 1,
+        sectionName: "Persoonlijk leiderschap en ondernemen",
+        text: "Mijn partner of dichtste naasten zouden zeggen dat ik regelmatig écht aanwezig ben, niet half-aanwezig met mijn hoofd nog in de praktijk."
+      },
+      {
+        section: 2,
+        sectionName: "Jouw team",
+        text: "Mijn team komt zelf met problemen én oplossingen, in plaats van problemen op mijn bordje te leggen."
+      },
+      {
+        section: 2,
+        sectionName: "Jouw team",
+        text: "In de afgelopen drie maanden heb ik een gesprek gevoerd met een teamlid waar ik tegenop zag, en ik heb daarin gezegd wat gezegd moest worden."
+      },
+      {
+        section: 2,
+        sectionName: "Jouw team",
+        text: "Als ik morgen drie weken op vakantie ga, ligt alles wat daarvoor nodig is (vakantieplanning, vervanging, overdracht, communicatie) al vast zonder dat ik het zelf nog moet regelen."
+      },
+      {
+        section: 3,
+        sectionName: "Systemen en processen",
+        text: "Als een nieuwe medewerker morgen begint, kan diegene zonder mijn uitleg de belangrijkste werkprocessen uitvoeren omdat ze ergens vastliggen."
+      },
+      {
+        section: 3,
+        sectionName: "Systemen en processen",
+        text: "Ik weet uit mijn hoofd wat de omzet, kosten en winst van vorige maand waren, en ik weet of dat goed of slecht is voor deze tijd van het jaar."
+      },
+      {
+        section: 3,
+        sectionName: "Systemen en processen",
+        text: "Ik werk volgens vaste systemen die ik zelf heb opgezet, niet volgens losse afspraken die ik telkens opnieuw maak of van moment tot moment beslis."
+      }
+    ];
+
+    let currentIndex = 0;
+    let answers = new Array(9).fill(null);
+
+    function startScan() {
+      document.getElementById('intro-screen').classList.add('hidden');
+      document.getElementById('question-screen').classList.remove('hidden');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById('progress-text').textContent = `Vraag ${currentIndex + 1} van 9`;
+      document.getElementById('section-text').textContent = q.sectionName;
+      document.getElementById('section-label').textContent = q.sectionName;
+      document.getElementById('question-text').textContent = q.text;
+      document.getElementById('progress-fill').style.width = `${((currentIndex + 1) / 9) * 100}%`;
+
+      document.querySelectorAll('.scale-option').forEach(el => {
+        el.classList.remove('selected');
+        if (parseInt(el.dataset.value) === answers[currentIndex]) {
+          el.classList.add('selected');
+        }
+      });
+
+      const nextBtn = document.getElementById('next-btn');
+      if (answers[currentIndex] !== null) {
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = '1';
+        nextBtn.style.cursor = 'pointer';
+      } else {
+        nextBtn.disabled = true;
+        nextBtn.style.opacity = '0.4';
+        nextBtn.style.cursor = 'not-allowed';
+      }
+
+      const navButtons = document.getElementById('nav-buttons');
+      if (currentIndex > 0) {
+        navButtons.classList.add('show-back');
+      } else {
+        navButtons.classList.remove('show-back');
+      }
+
+      if (currentIndex === 8) {
+        document.getElementById('next-btn').textContent = 'Naar uitslag →';
+      } else {
+        document.getElementById('next-btn').textContent = 'Volgende →';
+      }
+    }
+
+    function selectAnswer(value) {
+      answers[currentIndex] = value;
+      document.querySelectorAll('.scale-option').forEach(el => {
+        el.classList.remove('selected');
+        if (parseInt(el.dataset.value) === value) {
+          el.classList.add('selected');
+        }
+      });
+      const nextBtn = document.getElementById('next-btn');
+      nextBtn.disabled = false;
+      nextBtn.style.opacity = '1';
+      nextBtn.style.cursor = 'pointer';
+    }
+
+    function goNext() {
+      if (answers[currentIndex] === null) return;
+      if (currentIndex < 8) {
+        currentIndex++;
+        showQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showEmailScreen();
+      }
+    }
+
+    function goBack() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function showEmailScreen() {
+      document.getElementById('question-screen').classList.add('hidden');
+      document.getElementById('email-screen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBackToQuestions() {
+      document.getElementById('email-screen').classList.add('hidden');
+      document.getElementById('question-screen').classList.remove('hidden');
+      showQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    async function submitEmail() {
+      const name = document.getElementById('email-name').value.trim();
+      const email = document.getElementById('email-address').value.trim();
+      const errorEl = document.getElementById('email-error');
+
+      if (!name) {
+        errorEl.textContent = "Vul je naam in.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        errorEl.textContent = "Vul een geldig e-mailadres in.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      errorEl.style.display = "none";
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.5';
+      submitBtn.textContent = "Een moment...";
+
+      const s1 = answers[0] + answers[1] + answers[2];
+      const s2 = answers[3] + answers[4] + answers[5];
+      const s3 = answers[6] + answers[7] + answers[8];
+      const total = s1 + s2 + s3;
+
+      let zone;
+      if (total <= 18) zone = "Je fundament wankelt";
+      else if (total <= 30) zone = "Onder de oppervlakte schuurt het";
+      else if (total <= 38) zone = "Je fundament staat, maar er is werk aan de winkel";
+      else zone = "Stevig fundament, klaar voor de volgende fase";
+
+      try {
+        if (FORMSPREE_URL && !FORMSPREE_URL.includes("JOUW-FORM-ID")) {
+          await fetch(FORMSPREE_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: JSON.stringify({
+              naam: name,
+              email: email,
+              score_persoonlijk_leiderschap: `${s1} / 15`,
+              score_team: `${s2} / 15`,
+              score_systemen: `${s3} / 15`,
+              totaalscore: `${total} / 45`,
+              totaalscore_getal: total,
+              zone: zone,
+              antwoorden_per_vraag: answers.join(", ")
+            })
+          });
+        }
+      } catch (e) {
+        console.error("Inzending mislukt:", e);
+      }
+
+      showResult();
+    }
+
+    function getStatus(score) {
+      if (score <= 6) return "Zorgwekkend";
+      if (score <= 10) return "Onder de oppervlakte";
+      return "Stevig fundament";
+    }
+
+    function showResult() {
+      document.getElementById('email-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+
+      const s1 = answers[0] + answers[1] + answers[2];
+      const s2 = answers[3] + answers[4] + answers[5];
+      const s3 = answers[6] + answers[7] + answers[8];
+      const total = s1 + s2 + s3;
+
+      document.getElementById('score-1').textContent = `${s1} / 15`;
+      document.getElementById('score-2').textContent = `${s2} / 15`;
+      document.getElementById('score-3').textContent = `${s3} / 15`;
+
+      document.getElementById('status-1').textContent = getStatus(s1);
+      document.getElementById('status-2').textContent = getStatus(s2);
+      document.getElementById('status-3').textContent = getStatus(s3);
+
+      document.getElementById('cta-gesprek').href = URL_GESPREK;
+      document.getElementById('cta-brochure').href = URL_BROCHURE;
+
+      let zone, reflection;
+
+      if (total <= 18) {
+        zone = "Je fundament wankelt";
+        reflection = `
+          <p><strong>Geen verrassing dat je deze spiegel hebt gedaan.</strong> Je voelt al langer dat het niet klopt, en deze score bevestigt het. Op meerdere fronten loopt je praktijk op jouw schouders, en die schouders worden moe.</p>
+          <p>Dit is geen oordeel, dit is een diagnose. En het goede nieuws: zodra je het patroon ziet, kun je het ook doorbreken. Maar niet door harder te werken. Dat heb je al geprobeerd.</p>
+          <p><strong>Wat je nu nodig hebt:</strong> iemand die je helpt zien wat je zelf niet meer ziet, en die je begeleidt naar een vorm van leiderschap waarin de zorgverlener én de ondernemer in jou samenwerken in plaats van vechten.</p>
+        `;
+      } else if (total <= 30) {
+        zone = "Onder de oppervlakte schuurt het";
+        reflection = `
+          <p><strong>Van de buitenkant gaat het goed.</strong> Je praktijk draait, je team draait, je patiënten zijn tevreden. Maar deze spiegel laat zien wat jij al langer voelt: er schuurt iets, op plekken waar niemand het ziet behalve jij.</p>
+          <p>Dit is precies de fase waarin de meeste praktijkeigenaren te lang blijven hangen. Te druk om er echt naar te kijken, te bezorgd om hulp te vragen. Tot het ergens knalt.</p>
+          <p><strong>Wat je nu nodig hebt:</strong> de juiste spiegel op de juiste plek. Niet meer cursussen, niet meer losse tips. Een gerichte aanpak die de drie onderdelen, jou, je team en je systemen, in samenhang aanpakt.</p>
+        `;
+      } else if (total <= 38) {
+        zone = "Je fundament staat, maar er is werk aan de winkel";
+        reflection = `
+          <p><strong>Goed nieuws: je hebt al veel op orde.</strong> Je weet wat je doet, je team werkt mee, je structuur is grotendeels op zijn plek. Dat is niet vanzelf gegaan, daar mag je trots op zijn.</p>
+          <p>Maar de spiegel laat ook zien waar de scheurtjes zitten. Eén of twee thema's blijven achter, en die houden je tegen om de volgende stap te zetten. Vaak is dat precies de stap waar persoonlijk leiderschap, team en systemen elkaar raken.</p>
+          <p><strong>Wat je nu nodig hebt:</strong> verdieping waar het schuurt, niet breedte. Een gericht traject dat de laatste blokkades wegneemt zodat je écht kunt leiden in plaats van overal bovenop hoeven te zitten.</p>
+        `;
+      } else {
+        zone = "Stevig fundament, klaar voor de volgende fase";
+        reflection = `
+          <p><strong>Je staat er goed voor.</strong> Op alle drie de fronten heb je het werk gedaan: je weet waar je voor staat, je team werkt zelfstandig, en je systemen ondersteunen je in plaats van je tegen te werken. Dat is zeldzaam, en dat verdient erkenning.</p>
+          <p>De vraag voor jou is een andere. Als alles staat, wat is dan de volgende horizon? Groei, een tweede praktijk, kennisoverdracht, of misschien juist meer vrijheid en vrije tijd?</p>
+          <p><strong>Wat je nu nodig hebt:</strong> een sparringpartner op niveau, die met je meedenkt over wat na deze fase komt. Niet om je te helpen overleven, maar om je te helpen kiezen.</p>
+        `;
+      }
+
+      document.getElementById('result-zone-text').textContent = zone;
+      document.getElementById('result-total-score').textContent = `Totaalscore: ${total} van 45`;
+      document.getElementById('reflection-text').innerHTML = reflection;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetScan() {
+      currentIndex = 0;
+      answers = new Array(9).fill(null);
+      document.getElementById('email-name').value = '';
+      document.getElementById('email-address').value = '';
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('intro-screen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
