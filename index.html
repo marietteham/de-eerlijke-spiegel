@@ -771,12 +771,8 @@
 
       try {
         if (FORMSPREE_URL && !FORMSPREE_URL.includes("JOUW-FORM-ID")) {
-          await fetch(FORMSPREE_URL, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
+          const formData = new URLSearchParams({
+              datum: new Date().toLocaleString("nl-NL"),
               naam: name,
               email: email,
               score_persoonlijk_leiderschap: `${s1} / 15`,
@@ -786,7 +782,13 @@
               totaalscore_getal: total,
               zone: zone,
               antwoorden_per_vraag: answers.join(", ")
-            })
+            });
+          await fetch(FORMSPREE_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData.toString()
           });
         }
       } catch (e) {
@@ -873,3 +875,4 @@
   </script>
 </body>
 </html>
+
