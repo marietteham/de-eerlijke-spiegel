@@ -773,9 +773,8 @@
         if (FORMSPREE_URL && !FORMSPREE_URL.includes("JOUW-FORM-ID")) {
           await fetch(FORMSPREE_URL, {
             method: "POST",
-            mode: "no-cors",
             headers: {
-              "Content-Type": "text/plain"
+              "Content-Type": "application/json"
             },
             body: JSON.stringify({
               naam: name,
