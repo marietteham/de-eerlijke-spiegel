@@ -769,42 +769,36 @@
       else if (total <= 38) zone = "Je fundament staat, maar er is werk aan de winkel";
       else zone = "Stevig fundament, klaar voor de volgende fase";
 
-      try {
-        if (FORMSPREE_URL && !FORMSPREE_URL.includes("JOUW-FORM-ID")) {
-          await fetch(FORMSPREE_URL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    datum: new Date().toLocaleString("nl-NL"),
-    naam: name,
-    email: email,
-    vraag_1: answers[0],
-    vraag_2: answers[1],
-    vraag_3: answers[2],
-    vraag_4: answers[3],
-    vraag_5: answers[4],
-    vraag_6: answers[5],
-    vraag_7: answers[6],
-    vraag_8: answers[7],
-    vraag_9: answers[8],
-    score_persoonlijk_leiderschap: s1,
-    score_team: s2,
-    score_systemen: s3,
-    totaalscore: total,
-    zone: zone
-  })
-});
-          await fetch(FORMSPREE_URL, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: formData.toString()
-          });
-        }
-      } catch (e) {
-        console.error("Inzending mislukt:", e);
-      }
+   try {
+  if (FORMSPREE_URL && !FORMSPREE_URL.includes("JOUW-FORM-ID")) {
+    const formData = new URLSearchParams({
+      datum: new Date().toLocaleString("nl-NL"),
+      naam: name,
+      email: email,
+      vraag_1: answers[0],
+      vraag_2: answers[1],
+      vraag_3: answers[2],
+      vraag_4: answers[3],
+      vraag_5: answers[4],
+      vraag_6: answers[5],
+      vraag_7: answers[6],
+      vraag_8: answers[7],
+      vraag_9: answers[8],
+      score_persoonlijk_leiderschap: s1,
+      score_team: s2,
+      score_systemen: s3,
+      totaalscore: total,
+      zone: zone
+    });
+    await fetch(FORMSPREE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString()
+    });
+  }
+} catch (e) {
+  console.error("Inzending mislukt:", e);
+}  
 
       showResult();
     }
