@@ -419,6 +419,50 @@
       letter-spacing: 1px;
     }
 
+    .team-intro {
+      font-size: 16px;
+      color: var(--text-soft);
+      font-style: italic;
+      margin: 0 0 16px;
+      line-height: 1.6;
+    }
+
+    .team-intro span {
+      display: block;
+    }
+
+    .choice-option {
+      justify-content: center;
+      text-align: center;
+      padding: 16px 18px;
+    }
+
+    .choice-option .scale-label {
+      flex: none;
+      font-size: 16px;
+    }
+
+    .team-block {
+      background: #fff;
+      border: 1.5px solid var(--teal);
+      border-radius: 6px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+    }
+
+    .team-block h3 {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      color: var(--teal);
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      line-height: 1.3;
+    }
+
+    .team-block p {
+      margin: 0;
+    }
+
     .hidden {
       display: none;
     }
@@ -446,7 +490,7 @@
     <div id="intro-screen">
       <div class="intro">
         <p><strong>Wees eens eerlijk.</strong> Je team draait, maar het is onrustig. Je patiënten komen terug, maar jij gaat doodmoe naar bed. Je zegt tegen jezelf dat het wel goed gaat. Maar diep van binnen weet je dat je dat al veel te lang volhoudt.</p>
-        <p>Deze spiegel laat zien hoe stevig jouw fundament als praktijkleider werkelijk is. Negen vragen, drie thema's, geen plek om weg te kijken. Reken op vijf minuten.</p>
+        <p>Deze spiegel laat zien hoe stevig jouw fundament als praktijkleider werkelijk is. Tien vragen, drie thema's, geen plek om weg te kijken. Reken op vijf minuten.</p>
         <p><strong>De drie thema's:</strong> persoonlijk leiderschap en ondernemen, jouw team, en de systemen waarop je praktijk draait.</p>
       </div>
 
@@ -458,11 +502,11 @@
     <div id="question-screen" class="hidden">
       <div class="progress-wrap">
         <div class="progress-info">
-          <span id="progress-text">Vraag 1 van 9</span>
+          <span id="progress-text">Vraag 1 van 10</span>
           <span id="section-text">Persoonlijk leiderschap</span>
         </div>
         <div class="progress-bar">
-          <div class="progress-fill" id="progress-fill" style="width: 11%"></div>
+          <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
         </div>
       </div>
 
@@ -498,9 +542,45 @@
       </div>
     </div>
 
+    <div id="team-screen" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span>Vraag 10 van 10</span>
+          <span>De laatste vraag</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%"></div>
+        </div>
+      </div>
+
+      <div class="section-label">De laatste vraag</div>
+      <p class="team-intro">
+        <span>Alles wat je tot nu toe hebt ingevuld, is jouw beeld van de situatie.</span>
+        <span>Je team heeft er ook een.</span>
+      </p>
+      <p class="question">Zou je deze vragen ook aan je team durven stellen?</p>
+
+      <div class="scale" id="team-scale">
+        <div class="scale-option choice-option" data-value="1" onclick="selectTeamAnswer(1)">
+          <span class="scale-label">Ja, zonder aarzeling</span>
+        </div>
+        <div class="scale-option choice-option" data-value="2" onclick="selectTeamAnswer(2)">
+          <span class="scale-label">Ja, maar met een knoop in mijn maag</span>
+        </div>
+        <div class="scale-option choice-option" data-value="3" onclick="selectTeamAnswer(3)">
+          <span class="scale-label">Nee, nog niet</span>
+        </div>
+      </div>
+
+      <div class="nav-buttons show-back">
+        <button class="btn btn-secondary" onclick="goBackFromTeam()">← Vorige</button>
+        <button class="btn" id="team-next-btn" onclick="goNextFromTeam()" disabled style="opacity: 0.4; cursor: not-allowed;">Naar uitslag →</button>
+      </div>
+    </div>
+
     <div id="email-screen" class="hidden">
       <div class="intro">
-        <p><strong>Je hebt de negen vragen ingevuld.</strong> Voordat ik je de uitslag laat zien, vraag ik je om je naam en e-mailadres. Niet om je in een mailing-trechter te stoppen, maar zodat ik weet wie er moed heeft gehad om eerlijk te kijken.</p>
+        <p><strong>Je hebt de tien vragen ingevuld.</strong> Voordat ik je de uitslag laat zien, vraag ik je om je naam en e-mailadres. Niet om je in een mailing-trechter te stoppen, maar zodat ik weet wie er moed heeft gehad om eerlijk te kijken.</p>
         <p>Je krijgt direct daarna jouw persoonlijke uitslag te zien.</p>
       </div>
 
@@ -549,6 +629,11 @@
 
       <div class="reflection" id="reflection-text"></div>
 
+      <div class="team-block" id="team-block">
+        <h3 id="team-block-title"></h3>
+        <p id="team-block-text"></p>
+      </div>
+
       <div class="cta-block">
         <h3>Wil je hierover doorpraten?</h3>
         <p>Plan een vrijblijvend kennismakingsgesprek van 60 minuten. Geen verkoop, wel een eerlijk gesprek.</p>
@@ -556,7 +641,7 @@
       </div>
 
       <div class="secondary-cta">
-        <a href="#" id="cta-brochure">Of download eerst de brochure van Praktijkleiderschap in balans →</a>
+        <a href="#" id="cta-brochure" target="_blank" rel="noopener">Of download eerst de brochure van Praktijkleiderschap in balans →</a>
       </div>
 
       <div style="text-align: center; margin-top: 24px;">
@@ -578,14 +663,18 @@
     const FORMSPREE_URL = "https://hook.eu2.make.com/twz9hs1aim0f1h2if4phvfj7zzpj22k1";
 
     // 2. Link voor "plan een gesprek"
-    const URL_GESPREK = "https://marietteham.nl/jouw-aanvraag/";
+    const URL_GESPREK = "https://marietteham.nl/contact/";
 
     // 3. Link voor "download brochure"
-    const URL_BROCHURE = "https://www.marietteham.nl/brochure";
+    const URL_BROCHURE = "https://marietteham.nl/wp-content/uploads/2026/09/2026_Programma-brochure-PLB-1.pdf";
 
     /* ============================================================
        VANAF HIER NIETS MEER AANPASSEN
        ============================================================ */
+
+    // Knoppen direct koppelen, zodat ze nooit naar "#" verwijzen
+    document.getElementById('cta-gesprek').href = URL_GESPREK;
+    document.getElementById('cta-brochure').href = URL_BROCHURE;
 
     const questions = [
       {
@@ -637,6 +726,28 @@
 
     let currentIndex = 0;
     let answers = new Array(9).fill(null);
+    let teamAnswer = null;
+
+    const teamLabels = {
+      1: "Ja, zonder aarzeling",
+      2: "Ja, maar met een knoop in mijn maag",
+      3: "Nee, nog niet"
+    };
+
+    const teamTexts = {
+      1: {
+        title: "Dan is de vraag waarom je het nog niet hebt gedaan",
+        text: "Je durft de vraag te stellen. Toch heb je hem nog niet gesteld. Wat je hierboven leest is jouw beeld van je praktijk. Het beeld van je team ken je niet, want je hebt er nooit naar gevraagd. Zolang dat zo blijft, stuur je op een aanname en niet op wat er werkelijk speelt."
+      },
+      2: {
+        title: "Die knoop is het eerlijkste antwoord dat je hebt gegeven",
+        text: "Je zou het doen, maar iets in je houdt de rem erop. Die knoop betekent dat je iets vermoedt en het liever niet bevestigd ziet. Dat vermoeden klopt bijna altijd. En het kost je nu al energie, elke dag, zonder dat het je iets oplevert. Het gesprek dat je niet voert, voer je namelijk toch. In de auto naar huis, en 's avonds in bed."
+      },
+      3: {
+        title: "Dan heb je de vraag al beantwoord",
+        text: "Niet deze vraag, maar de vraag die eronder ligt: hoe veilig is het bij jou om iets te zeggen wat jij niet wilt horen. Je scores hierboven gaan over hoe jij je praktijk ervaart. Dit antwoord gaat over hoe je team jou ervaart. Precies daar zit het verschil waar je vermoeidheid vandaan komt."
+      }
+    };
 
     function startScan() {
       document.getElementById('intro-screen').classList.add('hidden');
@@ -646,11 +757,11 @@
 
     function showQuestion() {
       const q = questions[currentIndex];
-      document.getElementById('progress-text').textContent = `Vraag ${currentIndex + 1} van 9`;
+      document.getElementById('progress-text').textContent = `Vraag ${currentIndex + 1} van 10`;
       document.getElementById('section-text').textContent = q.sectionName;
       document.getElementById('section-label').textContent = q.sectionName;
       document.getElementById('question-text').textContent = q.text;
-      document.getElementById('progress-fill').style.width = `${((currentIndex + 1) / 9) * 100}%`;
+      document.getElementById('progress-fill').style.width = `${((currentIndex + 1) / 10) * 100}%`;
 
       document.querySelectorAll('.scale-option').forEach(el => {
         el.classList.remove('selected');
@@ -677,11 +788,7 @@
         navButtons.classList.remove('show-back');
       }
 
-      if (currentIndex === 8) {
-        document.getElementById('next-btn').textContent = 'Naar uitslag →';
-      } else {
-        document.getElementById('next-btn').textContent = 'Volgende →';
-      }
+      document.getElementById('next-btn').textContent = 'Volgende →';
     }
 
     function selectAnswer(value) {
@@ -705,7 +812,7 @@
         showQuestion();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        showEmailScreen();
+        showTeamScreen();
       }
     }
 
@@ -717,17 +824,54 @@
       }
     }
 
-    function showEmailScreen() {
+    function showTeamScreen() {
       document.getElementById('question-screen').classList.add('hidden');
+      document.getElementById('email-screen').classList.add('hidden');
+      document.getElementById('team-screen').classList.remove('hidden');
+
+      document.querySelectorAll('#team-scale .scale-option').forEach(el => {
+        el.classList.toggle('selected', parseInt(el.dataset.value) === teamAnswer);
+      });
+      setTeamNextEnabled(teamAnswer !== null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setTeamNextEnabled(enabled) {
+      const btn = document.getElementById('team-next-btn');
+      btn.disabled = !enabled;
+      btn.style.opacity = enabled ? '1' : '0.4';
+      btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+    }
+
+    function selectTeamAnswer(value) {
+      teamAnswer = value;
+      document.querySelectorAll('#team-scale .scale-option').forEach(el => {
+        el.classList.toggle('selected', parseInt(el.dataset.value) === value);
+      });
+      setTeamNextEnabled(true);
+    }
+
+    function goBackFromTeam() {
+      document.getElementById('team-screen').classList.add('hidden');
+      document.getElementById('question-screen').classList.remove('hidden');
+      currentIndex = 8;
+      showQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goNextFromTeam() {
+      if (teamAnswer === null) return;
+      showEmailScreen();
+    }
+
+    function showEmailScreen() {
+      document.getElementById('team-screen').classList.add('hidden');
       document.getElementById('email-screen').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function goBackToQuestions() {
-      document.getElementById('email-screen').classList.add('hidden');
-      document.getElementById('question-screen').classList.remove('hidden');
-      showQuestion();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showTeamScreen();
     }
 
     function isValidEmail(email) {
@@ -784,6 +928,8 @@
       vraag_7: answers[6],
       vraag_8: answers[7],
       vraag_9: answers[8],
+      vraag_10_team: teamAnswer,
+      vraag_10_team_tekst: teamLabels[teamAnswer] || "",
       score_persoonlijk_leiderschap: s1,
       score_team: s2,
       score_systemen: s3,
@@ -865,12 +1011,23 @@
       document.getElementById('result-total-score').textContent = `Totaalscore: ${total} van 45`;
       document.getElementById('reflection-text').innerHTML = reflection;
 
+      const teamBlock = document.getElementById('team-block');
+      if (teamAnswer && teamTexts[teamAnswer]) {
+        document.getElementById('team-block-title').textContent = teamTexts[teamAnswer].title;
+        document.getElementById('team-block-text').textContent = teamTexts[teamAnswer].text;
+        teamBlock.classList.remove('hidden');
+      } else {
+        teamBlock.classList.add('hidden');
+      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function resetScan() {
       currentIndex = 0;
       answers = new Array(9).fill(null);
+      teamAnswer = null;
+      document.getElementById('team-screen').classList.add('hidden');
       document.getElementById('email-name').value = '';
       document.getElementById('email-address').value = '';
       document.getElementById('result-screen').classList.add('hidden');
