@@ -473,6 +473,26 @@
       .container { padding: 24px 16px 60px; }
     }
   </style>
+
+  <!-- LinkedIn Insight Tag (Partner ID 1680642) — nodig om de conversie "Eerlijke Spiegel ingevuld" te meten -->
+  <script type="text/javascript">
+    _linkedin_partner_id = "1680642";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function(l) {
+      if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+      window.lintrk.q=[]}
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript";b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);})(window.lintrk);
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=1680642&fmt=gif" />
+  </noscript>
 </head>
 <body>
   <div class="container">
@@ -944,7 +964,12 @@
   }
 } catch (e) {
   console.error("Inzending mislukt:", e);
-}  
+}
+
+      // LinkedIn-conversie "Eerlijke Spiegel ingevuld" (conversion_id 30488706)
+      try {
+        if (window.lintrk) window.lintrk('track', { conversion_id: 30488706 });
+      } catch (e) {}
 
       showResult();
     }
